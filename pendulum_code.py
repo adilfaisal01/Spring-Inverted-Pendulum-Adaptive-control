@@ -27,7 +27,7 @@ class SpringInvertedPendulum(gym.Env):
         self.M=M #masses being placed on top
         self.k_spring=k_spring #spring placed on top
         self.I=1/3*self.m*self.L**2+self.M*self.L**2 #moment of inertia
-        self.b=2*np.sqrt((self.k_spring-0.5*self.m*self.g*self.L-self.M*self.g*self.L)*self.I) #adding random ness to the critical damping for better physics randomization
+        self.b=2*np.sqrt(self.k_spring-0.5*self.m*self.g*self.L-self.M*self.g*self.L*self.I) #adding random ness to the critical damping for better physics randomization
         self.p=self.m*self.L/2+self.M*self.L 
         self.dt=0.01 #time interval (in seconds)
         self.t=0 #initial time
@@ -53,7 +53,7 @@ class SpringInvertedPendulum(gym.Env):
     def step(self, action):
 
         theta,theta_dot=self.state #previous state
-        t_motor=float(action[0]) #action taken
+        t_motor= float(np.ravel(action)[0]) #action taken
         
         #move the physics forward by dt
         theta_ddot=(self.p*self.g*np.sin(theta)+t_motor-self.k_spring*theta-self.b*theta_dot)/self.I #governing equation of the system, found through Euler-Lagrangian method
