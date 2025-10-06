@@ -16,7 +16,7 @@ class CARLSpringInvertedPendulum(CARLGymnasiumEnv):
 
     @staticmethod 
     #k_spring: spring constant in Nm, M: mass attached on top
-    def get_context_features() -> dict [str,ContextFeature]:
+    def get_context_features() -> dict [str, ContextFeature]:
         return {
             "k_spring": UniformFloatContextFeature(
                 "k_spring", lower=4.745, upper=6.892,log=False, default_value=5.70
