@@ -61,12 +61,12 @@ class SpringInvertedPendulum(gym.Env):
         theta=theta+theta_dot*self.dt
         self.state=np.array([theta,theta_dot]) #updated states
         # check for termination
-        termination=bool(theta>np.pi/2 or theta <-np.pi/2)
+        termination=bool(np.abs(theta)>=np.pi/2)
         if termination:
             self.terminated=True #arm moved too far, get wreckt lol
         else:
             self.terminated=False
-        reward=-5*np.abs(theta) - 0.1 * theta_dot**2 #reward function
+        reward=-np.abs(theta) - 0.1 * theta_dot**2 #reward function
         self.current_steps=self.current_steps+1
         if self.current_steps>=self.maxsteps:
             truncated=True
@@ -76,8 +76,7 @@ class SpringInvertedPendulum(gym.Env):
     
     def reset(self,seed=None,options=None):
         super().reset(seed=seed)
-        self.state=self.np_random.uniform(low=np.array([-0.3,-1]),high=np.array([0.3,1]),size=(2,))
-        self.k_spring=np.random.choice(np.array([20.492,31.446,42,50.446,61,80])*0.11298)
+        self.state=self.np_random.uniform(low=np.array([-np.pi/2,-1]),high=np.array([1,np.pi/2]),size=(2,))
         self.terminated=False
         self.current_steps=0
         return np.array(self.state,dtype=np.float64),{}
