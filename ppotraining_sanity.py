@@ -3,11 +3,11 @@ import gymnasium as gym
 from stable_baselines3 import PPO
 from pendulum_code import SpringInvertedPendulum
 from stable_baselines3.common.vec_env import DummyVecEnv
-from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.evaluation import evaluate_policy
 
 # create the environment
 def make_env():
-    env=SpringInvertedPendulum(M=0,k_spring=4.75)
+    env=SpringInvertedPendulum(M=0,k_spring=5.67)
     return env
 
 
@@ -24,9 +24,8 @@ class LogStateCallback(BaseCallback):
         return True
 
 
+# model training
 vec_env=DummyVecEnv([make_env])
 model=PPO(policy='MlpPolicy',env=vec_env,verbose=1,tensorboard_log="./tensorboard_logs/",learning_rate=5e-5,normalize_advantage=True)
-model.learn(total_timesteps=100000,callback=LogStateCallback()) #100k steps
-model.save("ppo_spring_pendulum_kspring=4.75Nm")
-
-
+model.learn(total_timesteps=1000000,callback=LogStateCallback()) #100k steps
+model.save("ppo_spring_pendulum_kspring=5.67Nm")
