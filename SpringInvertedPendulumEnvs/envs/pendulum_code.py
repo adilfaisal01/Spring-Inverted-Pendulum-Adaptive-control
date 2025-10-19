@@ -20,14 +20,23 @@ class SpringInvertedPendulum(gym.Env):
         "render_fps": 50,
     }
 
-    def __init__(self,M,k_spring,max_steps=500,render_mode: str | None=None):
+    def __init__(self,M=0,k_spring=5.70,max_steps=500,render_mode: str | None=None):
         self.g=9.81 #gravity acceleration in m/s^2
         self.m=0.59787 #arm mass in kg
         self.L=0.3810 # arm length in meters
         self.M=M #masses being placed on top
         self.k_spring=k_spring #spring placed on top
         self.I=1/3*self.m*self.L**2+self.M*self.L**2 #moment of inertia
-        self.b=2*np.sqrt(self.k_spring-0.5*self.m*self.g*self.L-self.M*self.g*self.L*self.I) #adding random ness to the critical damping for better physics randomization
+        self.inner_arg=self.k_spring-0.5*self.m*self.g*self.L-self.M*self.g*self.L
+
+        if self.inner_arg<0:
+            print(f'physically impossible pendulum, inner_argument={self.inner_arg}')
+            return
+        elif self.inner_arg==0:
+            print('zero damping')
+        else:
+            print('good to run')
+        self.b=2*np.sqrt((self.inner_arg)*self.I) #adding random ness to the critical damping for better physics randomization
         self.p=self.m*self.L/2+self.M*self.L 
         self.dt=0.01 #time interval (in seconds)
         self.t=0 #initial time
@@ -53,6 +62,7 @@ class SpringInvertedPendulum(gym.Env):
     def step(self, action):
 
         theta,theta_dot=self.state #previous state
+        action=np.clip(action,-2,+2)
         t_motor= float(np.ravel(action)[0]) #action taken
         
         #move the physics forward by dt
@@ -72,7 +82,7 @@ class SpringInvertedPendulum(gym.Env):
             truncated=True
         else:
             truncated=False
-        return np.array(self.state,dtype=np.float64),reward,termination,truncated,{}
+        return np.array(self.state,dtype=np.float64),reward,termination,truncated,{'t_motor': t_motor}
     
     def reset(self,seed=None,options=None):
         super().reset(seed=seed)

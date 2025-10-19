@@ -1,7 +1,7 @@
 import numpy as np
 import gymnasium as gym
 from stable_baselines3 import PPO
-from pendulum_code import SpringInvertedPendulum
+from SpringInvertedPendulum.envs.pendulum_code import SpringInvertedPendulum
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.evaluation import evaluate_policy
 

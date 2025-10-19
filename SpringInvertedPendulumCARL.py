@@ -22,7 +22,7 @@ class CARLSpringInvertedPendulum(CARLGymnasiumEnv):
                 "k_spring", lower=4.745, upper=6.892,log=False, default_value=5.70
             ),
             "M": UniformFloatContextFeature(
-                "M", lower=0.0, upper= 1.0, default_value=0.0
+                "M", lower=0.0, upper= 0.50, default_value=0.0
             ),
             "initial_state_lower": UniformFloatContextFeature(
                 "initial_state_lower", lower=-np.pi/2, upper=np.deg2rad(-10),default_value=-0.2

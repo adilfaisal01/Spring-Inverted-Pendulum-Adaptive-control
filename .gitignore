@@ -1,3 +1,6 @@
 __pycache__
 ppo_tensorboard
 *.zip
+tensorboard_logs_*
+tensorboard_logs
+ppo_spring_pendulum_*
