@@ -4,7 +4,7 @@ from carl.context.context_space import ContextFeature, UniformFloatContextFeatur
 from carl.envs.gymnasium.carl_gymnasium_env import CARLGymnasiumEnv
 import numpy as np
 
-import envs
+# import envs
 
 
 class CARLSpringInvertedPendulum(CARLGymnasiumEnv):
