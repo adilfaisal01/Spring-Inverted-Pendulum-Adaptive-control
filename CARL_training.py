@@ -60,7 +60,6 @@ vec_env=DummyVecEnv([lambda: FlattenObservation(env_carl)])
 model=PPO(policy='MlpPolicy',env=vec_env,verbose=1,tensorboard_log="./logs_tensorboard_carlSpringPendulum/pporuns", learning_rate=5e-5)
 model.learn(total_timesteps=int(1e6),callback=LogStateCallback())
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
-
 model.save("CARL_model_1")
 
 
