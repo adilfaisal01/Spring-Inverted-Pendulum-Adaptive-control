@@ -7,8 +7,8 @@ from stable_baselines3.common.evaluation import evaluate_policy
 # from SpringInvertedPendulumCARL import CARLSpringInvertedPendulum
 
 # create the environment
-mass_on_top=0.5 #kg
-spring_const=3.50 #Nm
+mass_on_top=0 #kg
+spring_const=9.08 #Nm
 
 def make_env():
     env=SpringInvertedPendulum(M=mass_on_top, k_spring=spring_const)

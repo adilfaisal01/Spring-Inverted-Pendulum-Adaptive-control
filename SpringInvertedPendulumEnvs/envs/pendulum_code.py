@@ -43,7 +43,7 @@ class SpringInvertedPendulum(gym.Env):
 
 
         # action space, defined as [-1.0,1.0] nm from the motor
-        self.action_space=Box(low=-1.0,high=1.0,shape=(1,),dtype=np.float64)
+        self.action_space=Box(low=-2.0,high=2.0,shape=(1,),dtype=np.float64)
         # state space--> angular velocity and angle of the pendulum arm
         high_obs=np.array([np.pi/2, np.inf])
         self.observation_space=Box(low=-high_obs,high=high_obs, shape=(2,),dtype=np.float64)
